@@ -1,6 +1,6 @@
 namespace api.Entity
 {
-    public enum State
+    public enum EState
     {
         Pending,
         Approved,

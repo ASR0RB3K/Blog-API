@@ -14,7 +14,7 @@ namespace api.Entity
 
         public string Content { get; set; }
 
-        public State State { get; set; }
+        public EState State { get; set; }
 
         public Guid PostId { get; set; }
     }
