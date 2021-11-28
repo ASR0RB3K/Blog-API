@@ -11,7 +11,7 @@ namespace api.Entity
         public Guid Id { get; set; }
 
         [MaxLength(55)]
-        public string[] ContentType { get; set; }
+        public string ContentType { get; set; }
 
         public double SizeInMb 
         {
