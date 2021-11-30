@@ -10,7 +10,7 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20211128174756_Create")]
+    [Migration("20211130144800_Create")]
     partial class Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

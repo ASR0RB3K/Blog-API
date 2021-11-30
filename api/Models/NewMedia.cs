@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
@@ -7,6 +8,6 @@ namespace api.Models
     {
         [Required]
         [MaxLength(3 * 1024 * 1024)]
-        public IFormFile Data { get; set; }
+        public IEnumerable<IFormFile> Data { get; set; }
     }
 }

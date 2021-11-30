@@ -1,4 +1,5 @@
 using api.Data;
+using api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace api
             services.AddDbContext<BlogContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("ApiConnection")));
             services.AddControllers();
+            services.AddTransient<IMediaService, MediaService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "api", Version = "v1" });
