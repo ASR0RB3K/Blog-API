@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using api.Entity;
 using System.Linq;
 using System;
+using api.Mappers;
 
 namespace api.Controller
 {
@@ -34,7 +35,12 @@ namespace api.Controller
             var result = await _mds.InsertAsync(images);
             if(result.IsSuccess)
             {
-                return Ok();
+                var ImagePostId = media.Data.Select(m => m.GetMediaEntity()).ToList();
+
+                return Ok(ImagePostId.Select(m => new { 
+                    Id = m.Id,
+                    ContentType = m.ContentType
+                    }).ToList());
             }
             return BadRequest();
         }
@@ -49,7 +55,7 @@ namespace api.Controller
         {
             var file = await _mds.GetAsync(id);
             var stream = new MemoryStream(file.Data);
-            return File(stream, file.ContentType);
+            return File(stream.ToArray(), file.ContentType);
         }
 
         [HttpDelete]
