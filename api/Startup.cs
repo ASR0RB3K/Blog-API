@@ -24,8 +24,9 @@ namespace api
         {
             services.AddDbContext<BlogContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("ApiConnection")));
-            services.AddControllers();
             services.AddTransient<IMediaService, MediaService>();
+            services.AddTransient<IPostService, PostService>();
+            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "api", Version = "v1" });

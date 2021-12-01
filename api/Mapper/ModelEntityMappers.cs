@@ -20,13 +20,9 @@ namespace api.Mappers
                 Title = post.Title,
                 Description = post.Description,
                 Content = post.Content,
-                Viewed = post.Viewed,
-                CreatedAt = DateTimeOffset.UtcNow,
-                ModifiedAt = post.CreatedAt,
                 Medias = media.ToList()
-
             };
-        public static Entity.Media GetMediaEntity(this IFormFile media)
+        public static Media GetMediaEntity(this IFormFile media)
         {
             using var stream = new MemoryStream();
 

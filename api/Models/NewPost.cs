@@ -18,11 +18,7 @@ namespace api.Models
         [MaxLength(255)]
         public string Description { get; set; }
 
-        public uint Viewed { get; set; }
-
         public string Content { get; set; }
-
-        public DateTimeOffset CreatedAt { get; set; }
 
         [Required]
         public IEnumerable<Guid> MediaId { get; set; }
