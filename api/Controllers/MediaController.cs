@@ -23,26 +23,23 @@ namespace api.Controller
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromForm] NewMedia media)
+        public async Task<ActionResult> PostMedia([FromForm]NewMedia media)
         {
-            var images = media.Data.Select(f => 
+            if(ModelState.IsValid)
             {
-                using var stream = new MemoryStream();
-                f.CopyTo(stream);
-                return new Media(contentType: f.ContentType, data: stream.ToArray());
-            }).ToList();
+                var images = media.Data.Select(m => m.GetMediaEntity()).ToList();
 
-            var result = await _mds.InsertAsync(images);
-            if(result.IsSuccess)
-            {
-                var ImagePostId = media.Data.Select(m => m.GetMediaEntity()).ToList();
+                // images.ForEach(m => _mds.ExistAsync(images));
 
-                return Ok(ImagePostId.Select(m => new { 
+                await _mds.InsertAsync(images);
+
+                return Ok(images.Select(m => new { 
                     Id = m.Id,
                     ContentType = m.ContentType
                     }).ToList());
             }
-            return BadRequest();
+
+            return new JsonResult("Something went wrong") { StatusCode = 500 };
         }
 
         [HttpGet]
