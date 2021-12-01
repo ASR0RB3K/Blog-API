@@ -46,8 +46,15 @@ namespace api.Controller
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
-            => Ok(await _mds.GetAllAsync());
+        public async Task<IActionResult>  GetAllAsync()
+        {
+            var medias = await _mds.GetAllAsync();
+            var result = medias.Select(u => new {
+                Id = u.Id,
+                ContentType = u.ContentType,
+                });
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("{id}")]
