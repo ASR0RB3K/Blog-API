@@ -31,20 +31,5 @@ namespace api.Entity
         public ICollection<Comment> Comments { get; set; }
 
         public ICollection<Media> Medias { get; set; }
-
-        [Obsolete("Used only for Entities binding.", true)]
-        public Post() { }
-
-        public Post(Guid handlerImageId, string title, string description, string content, uint viewed, DateTimeOffset createdAt, DateTimeOffset modifiedAt)
-        {
-            Id = Guid.NewGuid();
-            HandlerImageId = handlerImageId;
-            Title = title;
-            Description = description;
-            Content = content;
-            Viewed = viewed;
-            CreatedAt = createdAt;
-            ModifiedAt = modifiedAt;
-        }
     }
 }

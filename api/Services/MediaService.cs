@@ -19,7 +19,7 @@ namespace api.Services
             _logger = logger;
         }
 
-        public Task<bool> ExistAsync(Guid id)
+        public Task<bool> ExistsAsync(Guid id)
             => _context.Medias.AnyAsync(m => m.Id == id);
 
         public Task<Media> GetAsync(Guid id)

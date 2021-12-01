@@ -1,10 +1,8 @@
-using System.Net.Mime;
 using System.IO;
 using System.Threading.Tasks;
 using api.Models;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
-using api.Entity;
 using System.Linq;
 using System;
 using api.Mappers;
