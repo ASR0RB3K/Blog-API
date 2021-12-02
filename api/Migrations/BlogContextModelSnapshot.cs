@@ -74,7 +74,8 @@ namespace api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -83,7 +84,7 @@ namespace api.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<Guid>("HandlerImageId")
+                    b.Property<Guid>("HeaderImageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("ModifiedAt")

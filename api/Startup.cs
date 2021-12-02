@@ -26,6 +26,7 @@ namespace api
                 => options.UseSqlServer(Configuration.GetConnectionString("ApiConnection")));
             services.AddTransient<IMediaService, MediaService>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<ICommentService, CommentService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

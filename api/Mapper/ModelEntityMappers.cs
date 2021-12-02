@@ -12,16 +12,13 @@ namespace api.Mappers
     public static class ModelEntityMappers
     {
         public static Post ToEntity(this NewPost post)
-            => new Post()
-            {
-                Id = Guid.NewGuid(),
-                HandlerImageId = post.HandlerImageId,
-                Title = post.Title,
-                Description = post.Description,
-                Content = post.Content,
-                Comments = null,
-                Medias = null,
-            };
+            => new Post(
+            headerImageId: post.HeaderImageId,
+            title: post.Title,
+            description: post.Description,
+            content: post.Content,
+            comments: null,
+            medias: null);
         public static Media GetMediaEntity(this IFormFile media)
         {
             using var stream = new MemoryStream();

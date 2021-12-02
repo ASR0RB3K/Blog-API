@@ -44,7 +44,7 @@ namespace api.Services
             var json = post.Select(p => new
             {
                 Id = p.Id,
-                HandlerImageId = p.HandlerImageId,
+                HeaderImageId = p.HeaderImageId,
                 Title = p.Title,
                 Description = p.Description,
                 Content = p.Content,
@@ -71,7 +71,7 @@ namespace api.Services
 
         public async Task<(bool IsSuccess, Exception exception)> InsertAsync(Post post)
         {
-            if(!await _ms.ExistsAsync(post.HandlerImageId))
+            if(!await _ms.ExistsAsync(post.HeaderImageId))
             {
                 return(false, new Exception("Not Found."));
             }

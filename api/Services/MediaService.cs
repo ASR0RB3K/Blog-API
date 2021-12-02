@@ -5,6 +5,7 @@ using api.Data;
 using api.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace api.Services
 {
@@ -22,11 +23,33 @@ namespace api.Services
         public Task<bool> ExistsAsync(Guid id)
             => _context.Medias.AnyAsync(m => m.Id == id);
 
+        public async Task<bool> ExistsAsync(IEnumerable<Guid> ids)
+        {
+            foreach (var id in ids)
+            {
+                if (await ExistsAsync(id))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public Task<Media> GetAsync(Guid id)
             => _context.Medias.FirstOrDefaultAsync(m => m.Id == id);
 
         public Task<List<Media>> GetAllAsync()
             => _context.Medias.ToListAsync();
+
+        public async Task<List<Media>> GetAllAsync(IEnumerable<Guid> ids)
+        {
+            var medias = new List<Media>();
+            foreach (var id in ids)
+            {
+                medias = _context.Medias.Where(m => m.Id == id).ToList();
+            }
+            return medias;
+        }
 
         public async Task<(bool IsSuccess, Exception exception)> InsertAsync(List<Media> media)
         {

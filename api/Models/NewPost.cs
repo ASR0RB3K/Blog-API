@@ -8,7 +8,7 @@ namespace api.Models
 {
     public class NewPost
     {
-        public Guid HandlerImageId { get; set; }
+        public Guid HeaderImageId { get; set; }
 
         [Required]
         [MaxLength(255)]
