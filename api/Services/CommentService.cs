@@ -8,90 +8,81 @@ using Microsoft.Extensions.Logging;
 
 namespace api.Services
 {
-    public class CommentService : ICommentService
+     public class CommentService : ICommentService
     {
         private readonly BlogContext _ctx;
-        private readonly ILogger<CommentService> _lg;
-        private readonly IPostService _ps;
+        private ILogger<CommentService> _log;
 
-        public CommentService(BlogContext context, ILogger<CommentService> logger, IPostService postService)
+        public CommentService(ILogger<CommentService> logger, BlogContext context)
         {
             _ctx = context;
-            _lg = logger;
-            _ps = postService;
+            _log = logger;
+        }
+        public async Task<(bool IsSuccess, Exception Exception, Comment Comment)> CreateAsync(Comment comment)
+        {
+        
+        try
+        {
+            await _ctx.Comments.AddAsync(comment);
+            await _ctx.SaveChangesAsync();
+            
+             _log.LogInformation($"create comment : {comment.Id}");
+            return (true, null, comment);
+        }
+        catch(Exception e)
+        {
+          _log.LogInformation($"create comment to DB failed: {comment.Id}");  
+            return (false, e, null);
+        }
+        }
+
+        public async Task<(bool IsSuccess, Exception Exception)> DeleteAsync(Guid id)
+        {
+             try
+        {
+            var comment = await GetAsync(id);
+
+            if(comment == default(Comment))
+            {
+                return (false, new Exception("Not found"));
+            }
+
+            _ctx.Comments.Remove(comment);
+            await _ctx.SaveChangesAsync();
+
+            return (true,  null);
+        }
+        catch(Exception e)
+        {
+            return (false, e);
+        }
         }
 
         public Task<bool> ExistsAsync(Guid id)
-            => _ctx.Comments.AnyAsync(c => c.Id == id);
-
+         => _ctx.Comments.AnyAsync(a => a.Id == id);
+       
         public Task<Comment> GetAsync(Guid id)
-            => _ctx.Comments.FirstOrDefaultAsync(c => c.Id == id);
+        => _ctx.Comments.FirstOrDefaultAsync(a => a.Id == id);
 
-        public Task<List<Comment>> GetAllAsync()
-            => _ctx.Comments.ToListAsync();
-
-        public async Task<(bool IsSuccess, Exception exception)> InsertAsync(Comment comment)
+         public async Task<(bool IsSuccess, Exception Exception,Comment Comment)> UpdateCommentAsync(Comment comment)
         {
             try
             {
-                await _ctx.Comments.AddAsync(comment);
-                await _ctx.SaveChangesAsync();
+                if(await _ctx.Comments.AnyAsync(t => t.Id == comment.Id))
+                {
+                    _ctx.Comments.Update(comment);
+                    await _ctx.SaveChangesAsync();
 
-                _lg.LogInformation("Comment added to db.");
-                return(true, null);
+                    return (true, null,comment);
+                }
+                else
+                {
+                    return (false, new Exception($"Post with given ID: {comment.Id} doesnt exist!"),null);
+                }
             }
-
             catch(Exception e)
             {
-                _lg.LogInformation($"Comment adding is failder in db: {e.Message}");
-                return(false, e);
-            }
-        }
-
-        public async Task<(bool IsSuccess, Exception exception)> UpdateAsync(Comment comment)
-        {
-            if(!await _ps.ExistsAsync(comment.PostId))
-            {
-                return(false, new Exception("Not Found"));
-            }
-
-            try
-            {
-                _ctx.Comments.Update(comment);
-                await _ctx.SaveChangesAsync();
-
-                _lg.LogInformation($"Comment updated in db: {comment.Id}");
-                return(true, null);
-            }
-
-            catch(Exception e)
-            {
-                _lg.LogInformation($"Comment update is failed in db: {e.Message}");
-                return(false, e);
-            }
-        }
-
-        public async Task<(bool IsSuccess, Exception exception)> DeleteAsync(Guid id)
-        {
-            var ncomment = await GetAsync(id);
-            if(ncomment is default(Comment))
-            {
-                return(false, new Exception("Not Found."));
-            }
-
-            try
-            {
-                _ctx.Comments.Remove(ncomment);
-                await _ctx.SaveChangesAsync();
-
-                _lg.LogInformation($"Comment deleted from db: {ncomment.Id}");
-                return(true, null);
-            }
-
-            catch(Exception e)
-            {
-                _lg.LogInformation($"Comment delete in db is failed: {e.Message}");
-                return(false, e);
+                return (false, e,null);
             }
         }
     }

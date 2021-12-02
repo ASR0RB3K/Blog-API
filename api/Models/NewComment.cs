@@ -2,11 +2,11 @@ using System;
 
 namespace api.Models
 {
-    public class NewModel
+    public class NewComment
     {
         public string Author { get; set; }
         public string Content { get; set; }
         public EStateNew State { get; set; }
-        public Guid Id { get; set; }
+        public Guid PostId { get; set; }
     }
 }

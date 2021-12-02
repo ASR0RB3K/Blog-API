@@ -7,11 +7,10 @@ namespace api.Services
 {
     public interface ICommentService
     {
-        Task<bool> ExistsAsync(Guid id);
+        Task<(bool IsSuccess, Exception Exception, Comment Comment)> CreateAsync(Comment comment);
         Task<Comment> GetAsync(Guid id);
-        Task<List<Comment>> GetAllAsync();
-        Task<(bool IsSuccess, Exception exception)> InsertAsync(Comment comment);
-        Task<(bool IsSuccess, Exception exception)> UpdateAsync(Comment comment);
-        Task<(bool IsSuccess, Exception exception)> DeleteAsync(Guid id);
+        Task<(bool IsSuccess, Exception Exception, Comment Comment)> UpdateCommentAsync(Comment comment);
+        Task<bool> ExistsAsync(Guid id);
+        Task<(bool IsSuccess, Exception Exception)> DeleteAsync(Guid id);
     }
 }
