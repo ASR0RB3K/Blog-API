@@ -11,8 +11,7 @@ namespace api.Mappers
 {
     public static class ModelEntityMappers
     {
-        public static Post ToEntity(this NewPost post, 
-        IEnumerable<Media> media)
+        public static Post ToEntity(this NewPost post)
             => new Post()
             {
                 Id = Guid.NewGuid(),
@@ -20,7 +19,8 @@ namespace api.Mappers
                 Title = post.Title,
                 Description = post.Description,
                 Content = post.Content,
-                Medias = media.ToList()
+                Comments = null,
+                Medias = null,
             };
         public static Media GetMediaEntity(this IFormFile media)
         {

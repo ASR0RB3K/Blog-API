@@ -8,7 +8,6 @@ namespace api.Models
 {
     public class NewPost
     {
-        [Required]
         public Guid HandlerImageId { get; set; }
 
         [Required]
@@ -20,7 +19,6 @@ namespace api.Models
 
         public string Content { get; set; }
 
-        [Required]
         public IEnumerable<Guid> MediaId { get; set; }
     }
 }
